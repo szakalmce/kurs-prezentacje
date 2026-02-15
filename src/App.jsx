@@ -242,7 +242,7 @@ const MC={'RESET':{bg:`bg-slate-100`,border:`border-slate-300`,text:`text-slate-
 const TL={theory:`Teoria`,exercise:`Ćwiczenie`,recording:`Nagrywanie`,battle:`Zadanie Bojowe`,review:`Powtórka`,build:`Budowanie`};
 const RC=['Hook','Logika','Emocje','Energia','Autentyczność','CTA'];
 
-function useS(key,init){const[v,setV]=useState(init);const[l,setL]=useState(false);useEffect(()=>{(async()=>{try{const r=await window.storage.get('prez_'+key);if(r&&r.value)setV(JSON.parse(r.value));}catch(e){}finally{setL(true);}})();},[]);useEffect(()=>{if(l){try{window.storage.set('prez_'+key,JSON.stringify(v));}catch(e){}}},[v,l]);return[v,setV,l];}
+function useS(key,init){const[v,setV]=useState(init);const[l,setL]=useState(false);useEffect(()=>{try{const r=localStorage.getItem('prez_'+key);if(r)setV(JSON.parse(r));}catch(e){}finally{setL(true);}},[]);useEffect(()=>{if(l){try{localStorage.setItem('prez_'+key,JSON.stringify(v));}catch(e){}}},[v,l]);return[v,setV,l];}
 
 function TheoryPanel({thKey,onClose}){const t=TH[thKey];if(!t)return null;return(<div className='bg-blue-50 border border-blue-200 rounded-xl overflow-hidden mb-3'><div className='flex items-center justify-between px-4 py-2.5 bg-blue-100 border-b border-blue-200'><h3 className='font-bold text-blue-900 text-sm'>{'📖 '+t.t}</h3><button onClick={onClose} className='text-blue-400 hover:text-blue-700 text-lg leading-none'>✕</button></div><div className='px-4 py-3 max-h-96 overflow-y-auto'><pre className='text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed'>{t.b}</pre></div></div>);}
 
